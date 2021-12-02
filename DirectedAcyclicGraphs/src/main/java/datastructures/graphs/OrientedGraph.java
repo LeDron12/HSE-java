@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrientedGraph {
-    private HashMap<Model, List<Model>> map;
+    private HashMap<Model, List<Model>> hashMap;
 
     public OrientedGraph() {
-        map = new HashMap<Model, List<Model>>();
+        hashMap = new HashMap<Model, List<Model>>();
     }
 
     private void addVertex(Model modelOne) {
@@ -24,5 +24,13 @@ public class OrientedGraph {
 
     private boolean hasEdge(Model modelOne, Model modelTwo) {
         return true;
+    }
+
+    public void insert(Model item) {
+
+    }
+
+    public void printAll() {
+
     }
 }

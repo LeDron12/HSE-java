@@ -1,29 +1,24 @@
 package datastructures.graphs;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BoundBox {
-    Edges edges;
-    List<Model> itemBox;
+    private final Edges edges;
+    private final OrientedGraph itemGraph;
+    private int itemCount;
 
     public BoundBox(Edges edges) {
         this.edges = edges;
-        this.itemBox = new ArrayList<Model>();
+        this.itemGraph = new OrientedGraph();
+        this.itemCount = 0;
     }
 
     public void addItem(Model item) {
-        itemBox.add(item);
+        itemGraph.insert(item);
+        itemCount++;
     }
 
     public void print() {
-        double length = edges.getLength();
-        double height = edges.getHeight();
-
-        for (int i = 0; i < edges.getLength(); i++){
-            for (int j = 0; j < edges.getHeight(); j++) {
-                // Add drawing library
-            }
-        }
+        itemGraph.printAll();
     }
 }

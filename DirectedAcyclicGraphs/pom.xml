@@ -39,9 +39,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>
-                                datastructures.graphs.Main
-                            </mainClass>
+                            <addClasspath>true</addClasspath>
+                            <mainClass> datastructures.graphs.Main </mainClass>
                         </manifest>
                     </archive>
                 </configuration>

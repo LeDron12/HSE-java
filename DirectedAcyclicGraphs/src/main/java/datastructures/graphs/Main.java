@@ -7,31 +7,25 @@ public class Main {
         Class<? extends Model> itemClass;
 
         System.out.println("Please, enter start coordinates here, if you haven't done it in arguments' line:\n");
-        coordinates = Util.validateCoordinates(args[0], args[1]);
+        if(args.length > 1) {
+            coordinates = Util.validateCoordinates(args[0], args[1]);
+        } else {
+            coordinates = Util.validateCoordinates("first", "second");
+        }
 
         Space space = new Space(coordinates);
 
         System.out.println("!!! Input \"clear\" if you made a mistake !!!\n" +
                 "!!! Input \"end\" if you want to finnish !!!");
         do {
-            System.out.println("Input first coordinate: \"x\"\n");
+            System.out.println("Input next item coordinates: \"x y\"\n");
             first = Util.readNext();
-            if(first.contains("end")) {
-                System.out.println("Input stopped\n");
-                break;
-            }
-            if (first.contains("clear")) {
-                System.out.println("Input cleared\n");
-                continue;
-            }
-
-            System.out.println("Input second coordinate: \"y\"\n");
             second = Util.readNext();
-            if(second.contains("end")) {
+            if(first.contains("end") || second.contains("end")) {
                 System.out.println("Input stopped\n");
                 break;
             }
-            if (second.contains("clear")) {
+            if (first.contains("clear") || second.contains("clear")) {
                 System.out.println("Input cleared\n");
                 continue;
             }

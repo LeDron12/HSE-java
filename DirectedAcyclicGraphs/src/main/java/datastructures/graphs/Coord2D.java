@@ -1,6 +1,6 @@
 package datastructures.graphs;
 
-public class Coord2D {
+public class Coord2D implements Comparable{
     private double x;
     private double y;
 
@@ -23,6 +23,25 @@ public class Coord2D {
 
     public void setY(int value) {
         this.y = value;
+    }
+
+    @Override
+    public int compareTo(Object obj) {
+        Coord2D second = (Coord2D)obj;
+
+        if(getX() > second.getX()) {
+            return 1;
+        } else if (getX() < second.getX()) {
+            return -1;
+        } else {
+            if(getY() > second.getY()) {
+                return 1;
+            } else if (getY() < second.getY()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
     }
 }
 
@@ -59,5 +78,21 @@ class Edges {
 
     public double getSize() {
         return size;
+    }
+
+    public Coord2D getFirst() {
+        return first;
+    }
+
+    public void setFirst(Coord2D first) {
+        this.first = first;
+    }
+
+    public Coord2D getSecond() {
+        return second;
+    }
+
+    public void setSecond(Coord2D second) {
+        this.second = second;
     }
 }

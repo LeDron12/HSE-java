@@ -25,6 +25,7 @@ public class Util {
 
         do {
             flag = true;
+
             try {
                 x = Double.parseDouble(first);
                 y = Double.parseDouble(second);
@@ -37,7 +38,12 @@ public class Util {
                         "Please, enter coordinates in format \"x y\"\n");
                 flag = false;
             }
-        } while (flag);
+
+            if(flag == false) {
+                first = consoleScanner.next();
+                second = consoleScanner.next();
+            }
+        } while (!flag);
 
         return new Coord2D(x, y);
     }

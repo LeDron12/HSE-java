@@ -16,24 +16,13 @@ public class Model implements Comparable, Printable {
     }
 
     public void print() {
-        // Drawing library vibes...
+        // sad overridden empty method :(
     }
 
     @Override
     public int compareTo(Object obj) {
-        Coord2D second = (Coord2D)obj;
-        if(position.getX() > second.getX()) {
-            return 1;
-        } else if (position.getX() < second.getX()) {
-            return -1;
-        } else {
-            if(position.getY() > second.getY()) {
-                return 1;
-            } else if (position.getY() < second.getY()) {
-                return -1;
-            } else {
-                return 0;
-            }
-        }
+        Model second = (Model) obj;
+
+        return position.compareTo(second.position);
     }
 }
