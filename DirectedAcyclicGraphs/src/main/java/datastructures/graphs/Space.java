@@ -4,6 +4,8 @@ import datastructures.graphs.exceptions.*;
 import datastructures.graphs.model.*;
 import datastructures.graphs.coordinates.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class Space {
@@ -55,8 +57,12 @@ public class Space {
         }
 
         itemGraph.getSpaceOrigin().getBounds().reset(startCoordinates);
+        List<Edges> helpEdges = new ArrayList<Edges>();
         for (var child : itemGraph.getSpaceOrigin().getChildren()) {
-            itemGraph.recomputeBounds(itemGraph.getSpaceOrigin(), child);
+            helpEdges.add(itemGraph.recomputeBounds(itemGraph.getSpaceOrigin(), child));
+        }
+        for (var edges : helpEdges) {
+            itemGraph.getSpaceOrigin().getBounds().setNewEdges(edges);
         }
 
         return item;

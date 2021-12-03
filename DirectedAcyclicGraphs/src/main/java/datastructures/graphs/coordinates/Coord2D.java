@@ -27,6 +27,10 @@ public class Coord2D implements Comparable{
 
     @Override
     public int compareTo(Object obj) {
+        if(obj.getClass() != Coord2D.class) {
+            throw new IllegalArgumentException("Compare type must be \"Coord2D\"");
+        }
+
         Coord2D second = (Coord2D)obj;
 
         if(Math.abs(getX() - second.getX()) < 0.000001 &&

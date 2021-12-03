@@ -70,4 +70,67 @@ public class Utests {
         space.addItem(start, new Coord2D(2, 2), Point.class);
         Assertions.assertThrows(DAGConstraintException.class, () -> space.getItem(new Coord2D(3, 3)));
     }
+
+    @Test
+    void hugeCorrectTest() throws DAGConstraintException {
+        Coord2D start = new Coord2D(3, 4);
+        Model model;
+        Space space = new Space(start);
+
+        space.addItem(new Coord2D(3, 4), new Coord2D(-1, -2), Origin.class);
+        model = space.getItem(start);
+        System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+        System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+        System.out.println();
+
+        space.addItem(new Coord2D(-1, -2), new Coord2D(3, -3), Origin.class);
+        model = space.getItem(start);
+        System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+        System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+        System.out.println();
+
+        space.addItem(new Coord2D(3, 4), new Coord2D(-7, -5), Origin.class);
+        model = space.getItem(start);
+        System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+        System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+        System.out.println();
+
+        space.addItem(new Coord2D(-1, -2), new Coord2D(-3, 5), Origin.class);
+        model = space.getItem(start);
+        System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+        System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+        System.out.println();
+
+        space.addItem(new Coord2D(-3, 5), new Coord2D(1, -10), Origin.class);
+        model = space.getItem(start);
+        System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+        System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+        System.out.println();
+
+        double ret = model.getBounds().getEdges().getFirst().getX() +
+                model.getBounds().getEdges().getFirst().getY() +
+                model.getBounds().getEdges().getSecond().getX() +
+                model.getBounds().getEdges().getSecond().getY();
+        Assertions.assertEquals(5.0, ret);
+    }
+
+    @Test
+    void callSetNewEdgesWithNullArgument() throws DAGConstraintException {
+        Coord2D start = new Coord2D(3, 4);
+        Space space = new Space(start);
+        space.addItem(new Coord2D(3, 4), new Coord2D(2, 2), Origin.class);
+        Model model = space.getItem(new Coord2D(2, 2));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> model.getBounds().setNewEdges(null));
+    }
+
+    @Test
+    void callCompaToWithBadArgumentType() throws DAGConstraintException {
+        Coord2D start = new Coord2D(3, 4);
+        Space space = new Space(start);
+        space.addItem(new Coord2D(3, 4), new Coord2D(2, 2), Origin.class);
+        Model model = space.getItem(new Coord2D(2, 2));
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> model.getBounds().getEdges().getFirst().compareTo(space));
+    }
 }

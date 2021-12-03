@@ -11,6 +11,10 @@ public class BoundBox {
     }
 
     public void setNewEdges(Edges newEdges) {
+        if(newEdges == null) {
+            throw new IllegalArgumentException("Null arguments are restricted");
+        }
+
         Coord2D newLeftHighCoordinates = new Coord2D(
                 Math.min(newEdges.getFirst().getX(), edges.getFirst().getX()),
                 Math.max(newEdges.getFirst().getY(), edges.getFirst().getY())

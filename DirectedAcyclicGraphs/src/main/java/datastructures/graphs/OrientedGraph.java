@@ -4,10 +4,7 @@ import datastructures.graphs.coordinates.*;
 import datastructures.graphs.exceptions.*;
 import datastructures.graphs.model.*;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OrientedGraph {
     private final Origin spaceOrigin;
@@ -35,6 +32,9 @@ public class OrientedGraph {
 
         if (hasVertex(modelOne)) {
             hashMap.get(modelOne).add(modelTwo);
+            if(!hasVertex(modelTwo)) {
+                hashMap.put(modelTwo, new HashSet<Model>());
+            }
         } else {
             if (!modelOne.equals(spaceOrigin)) {
                 hashMap.put(modelOne, new HashSet<Model>());
@@ -73,6 +73,9 @@ public class OrientedGraph {
 
     public void insert(Coord2D parentCoordinates, Model item) throws DAGConstraintException {
         Model parentModel;
+        if(parentCoordinates == null) {
+            throw new IllegalArgumentException("Arguments can't be null");
+        }
         Optional<Model> optionalParentModel = findModelByCoordinates(new Model(parentCoordinates));
 
         if (optionalParentModel.isEmpty()) {
@@ -89,7 +92,7 @@ public class OrientedGraph {
         addEdge(parentModel, item);
     }
 
-    public void recomputeBounds(Model parent, Model current) {
+    public Edges recomputeBounds(Model parent, Model current) {
         Origin originParent = (Origin) parent;
         Origin originCurrent = null;
         Point pointCurrent = null;
@@ -97,19 +100,24 @@ public class OrientedGraph {
         current.getBounds().reset(current.getPosition());
         if (current.getChildrenCount() != 0) {
             originCurrent = (Origin) current;
+            //Edges currentEdges = current.getBounds().getEdges();
+            List<Edges> helpEdges = new ArrayList<Edges>();
             for (var child : originCurrent.getChildren()) {
-                recomputeBounds(originCurrent, child);
+                helpEdges.add(recomputeBounds(originCurrent, child));
+            }
+            for (var edges : helpEdges) {
+                originCurrent.getBounds().setNewEdges(edges);
             }
         }
 
         if (current.getClass() == Point.class) {
             pointCurrent = (Point) current;
-            Edges edgesToCompare = originParent.getBounds().getEdges().addCoordinates(pointCurrent.getBounds().getEdges());
-            originParent.getBounds().setNewEdges(edgesToCompare);
+            return originParent.getBounds().getEdges().addCoordinates(pointCurrent.getBounds().getEdges());
+            //originParent.getBounds().setNewEdges(edgesToCompare);
         } else {
             originCurrent = (Origin) current;
-            Edges edgesToCompare = parent.getBounds().getEdges().addCoordinates(originCurrent.getBounds().getEdges());
-            originParent.getBounds().setNewEdges(edgesToCompare);
+            return parent.getBounds().getEdges().addCoordinates(originCurrent.getBounds().getEdges());
+//            originParent.getBounds().setNewEdges(edgesToCompare);
         }
     }
 
