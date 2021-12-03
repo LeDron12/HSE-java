@@ -133,4 +133,12 @@ public class Utests {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> model.getBounds().getEdges().getFirst().compareTo(space));
     }
+
+    @Test
+    void edgesSum() {
+        Edges edges = new Edges(new Coord2D(1, 2), new Coord2D(12, 2));
+        edges.addCoordinates(new Edges(new Coord2D(1, 21), new Coord2D(12, 2)));
+
+        Assertions.assertEquals(2.0, edges.getFirst().getY());
+    }
 }
