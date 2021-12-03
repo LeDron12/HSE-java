@@ -1,24 +1,35 @@
 package datastructures.graphs;
 
-import java.util.ArrayList;
+import datastructures.graphs.coordinates.Coord2D;
+import datastructures.graphs.coordinates.Edges;
 
 public class BoundBox {
     private final Edges edges;
-    private final OrientedGraph itemGraph;
-    private int itemCount;
 
-    public BoundBox(Edges edges) {
-        this.edges = edges;
-        this.itemGraph = new OrientedGraph();
-        this.itemCount = 0;
+    public BoundBox(Coord2D coordinates) {
+        this.edges = new Edges(coordinates, coordinates);
     }
 
-    public void addItem(Model item) {
-        itemGraph.insert(item);
-        itemCount++;
+    public void setNewEdges(Edges newEdges) {
+        Coord2D newLeftHighCoordinates = new Coord2D(
+                Math.min(newEdges.getFirst().getX(), edges.getFirst().getX()),
+                Math.max(newEdges.getFirst().getY(), edges.getFirst().getY())
+        );
+        Coord2D newRightDownCoordinates = new Coord2D(
+                Math.max(newEdges.getSecond().getX(), edges.getSecond().getX()),
+                Math.min(newEdges.getSecond().getY(), edges.getSecond().getY())
+        );
+
+        edges.setFirst(newLeftHighCoordinates);
+        edges.setSecond(newRightDownCoordinates);
     }
 
-    public void print() {
-        itemGraph.printAll();
+    public Edges getEdges() {
+        return edges;
+    }
+
+    public void reset(Coord2D defaultCoordinates) {
+        edges.setFirst(defaultCoordinates);
+        edges.setSecond(defaultCoordinates);
     }
 }

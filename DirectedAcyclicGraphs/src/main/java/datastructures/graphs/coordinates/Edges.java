@@ -1,51 +1,6 @@
-package datastructures.graphs;
+package datastructures.graphs.coordinates;
 
-public class Coord2D implements Comparable{
-    private double x;
-    private double y;
-
-    public Coord2D(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    public double getX() {
-        return this.x;
-    }
-
-    public double getY() {
-        return this.y;
-    }
-
-    public void setX(int value) {
-        this.x = value;
-    }
-
-    public void setY(int value) {
-        this.y = value;
-    }
-
-    @Override
-    public int compareTo(Object obj) {
-        Coord2D second = (Coord2D)obj;
-
-        if(getX() > second.getX()) {
-            return 1;
-        } else if (getX() < second.getX()) {
-            return -1;
-        } else {
-            if(getY() > second.getY()) {
-                return 1;
-            } else if (getY() < second.getY()) {
-                return -1;
-            } else {
-                return 0;
-            }
-        }
-    }
-}
-
-class Edges {
+public class Edges {
     private Coord2D first;
     private Coord2D second;
 
@@ -66,6 +21,17 @@ class Edges {
 
     private double computeLength(double first, double second) {
         return Math.sqrt(Math.pow(first, 2) + Math.pow(second, 2));
+    }
+
+    public Edges addCoordinates(Edges secondEdges) {
+        Coord2D newCoordOne = new Coord2D(
+                first.getX() + secondEdges.first.getX(),
+                first.getY() + secondEdges.first.getY());
+        Coord2D newCoordTwo = new Coord2D(
+                second.getX() + secondEdges.second.getX(),
+                second.getY() + secondEdges.second.getY());
+
+        return new Edges(newCoordOne, newCoordTwo);
     }
 
     public double getHeight() {

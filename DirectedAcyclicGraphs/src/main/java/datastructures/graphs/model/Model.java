@@ -1,10 +1,15 @@
-package datastructures.graphs;
+package datastructures.graphs.model;
 
-public class Model implements Comparable, Printable {
+import datastructures.graphs.BoundBox;
+import datastructures.graphs.coordinates.Coord2D;
+
+public class Model implements Comparable{
     private Coord2D position;
+    private BoundBox bounds;
 
     public Model(Coord2D position) {
         this.position = position;
+        this.bounds = new BoundBox(position);
     }
 
     public Coord2D getPosition() {
@@ -15,14 +20,18 @@ public class Model implements Comparable, Printable {
         this.position = position;
     }
 
-    public void print() {
-        // sad overridden empty method :(
-    }
-
     @Override
     public int compareTo(Object obj) {
         Model second = (Model) obj;
 
         return position.compareTo(second.position);
+    }
+
+    public BoundBox getBounds() {
+        return bounds;
+    }
+
+    public int getChildrenCount() {
+        return 0;
     }
 }

@@ -1,44 +1,64 @@
 package datastructures.graphs;
 
+import datastructures.graphs.exceptions.*;
+import datastructures.graphs.model.*;
+import datastructures.graphs.coordinates.*;
+
+import java.util.Optional;
+
 public class Space {
-    private final Edges edges; // Edge coordinates.
-    private final BoundBox boundBox; // Container with all items.
+    private final OrientedGraph itemGraph; // Container with all items.
     private final Coord2D startCoordinates; // Start coordinates.
 
-    public Space(Coord2D startCoordinates) {
+    public Space (Coord2D startCoordinates) throws NullPointerException {
+        if(startCoordinates == null) {
+            throw new NullPointerException("Null arguments are restricted");
+        }
         this.startCoordinates = startCoordinates;
-        this.edges = new Edges(startCoordinates, startCoordinates);
-        this.boundBox = new BoundBox(edges);
+        itemGraph = new OrientedGraph(startCoordinates);
     }
 
-    public void addItem(Coord2D coordinates, Class<? extends Model> itemClass) {
-        if(itemClass == Point.class) {
-            checkEdges(coordinates);
-            boundBox.addItem(new Point(coordinates));
+    /// Use space position if you want to create new independent Origin.
+    public void addItem (Coord2D parentCoordinates,
+                        Coord2D coordinates,
+                        Class<? extends Model> itemClass) throws IllegalArgumentException, NullPointerException, DAGConstraintException {
+        if (parentCoordinates == null || coordinates == null || itemClass == null) {
+            throw new NullPointerException("Null arguments are restricted");
+        }
+
+        if (itemClass == Point.class) {
+            itemGraph.insert(parentCoordinates, new Point(coordinates));
         } else if (itemClass == Origin.class) {
-            checkEdges(coordinates);
-            boundBox.addItem(new Origin(coordinates));
+            itemGraph.insert(parentCoordinates, new Origin(coordinates));
         } else {
-            System.out.println("Incorrect item type.\n" +
-                    "\"origin\" or \"point\" expected. ");
+            throw new IllegalArgumentException("Type " + itemClass.getName() + " is restricted");
         }
     }
 
-    private void checkEdges(Coord2D coordinates) {
-        Coord2D newLeftHighCoordinates = new Coord2D(
-                Math.min(coordinates.getX(), edges.getFirst().getX()),
-                Math.max(coordinates.getY(), edges.getFirst().getY())
-        );
-        Coord2D newRightDownCoordinates = new Coord2D(
-                Math.max(coordinates.getX(), edges.getSecond().getX()),
-                Math.min(coordinates.getY(), edges.getSecond().getY())
-        );
+    public Model getItem(Coord2D coordinates) throws DAGConstraintException {
+        Model item;
+        Optional<Model> optionalItem = itemGraph.findModelByCoordinates(new Model(coordinates));
 
-        edges.setFirst(newLeftHighCoordinates);
-        edges.setSecond(newRightDownCoordinates);
-    }
+        if(coordinates == null) {
+            throw new NullPointerException("Null arguments are restricted");
+        }
 
-    public void print() {
-        boundBox.print();
+        if(optionalItem.isEmpty()) {
+            if(coordinates.compareTo(startCoordinates) == 0) {
+                item = itemGraph.getSpaceOrigin();
+            } else {
+                throw new DAGConstraintException("Cant find item with coordinates "
+                        + coordinates.getX() + " " + coordinates.getY());
+            }
+        } else {
+            item = optionalItem.get();
+        }
+
+        itemGraph.getSpaceOrigin().getBounds().reset(startCoordinates);
+        for (var child : itemGraph.getSpaceOrigin().getChildren()) {
+            itemGraph.recomputeBounds(itemGraph.getSpaceOrigin(), child);
+        }
+
+        return item;
     }
 }

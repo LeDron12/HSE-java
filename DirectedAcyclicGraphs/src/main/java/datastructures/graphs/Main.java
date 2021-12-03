@@ -1,56 +1,56 @@
 package datastructures.graphs;
 
+import datastructures.graphs.coordinates.*;
+import datastructures.graphs.model.*;
+import datastructures.graphs.exceptions.*;
+
 public class Main {
     public static void main(String[] args) {
-        String first, second, itemClassName;
-        Coord2D coordinates;
-        Class<? extends Model> itemClass;
+        Coord2D startCoords, first, second, third, fourth;
+        Model model = null;
+        startCoords = new Coord2D(1, 1);
 
-        System.out.println("Please, enter start coordinates here, if you haven't done it in arguments' line:\n");
-        if(args.length > 1) {
-            coordinates = Util.validateCoordinates(args[0], args[1]);
-        } else {
-            coordinates = Util.validateCoordinates("first", "second");
+        Space space = new Space(startCoords);
+
+        first = new Coord2D(1, 1);
+        second = new Coord2D(-2, 1);
+        third = new Coord2D(1, 0);
+        fourth = new Coord2D(-1, -1);
+        try {
+            space.addItem(first, second, Origin.class);
+            model = space.getItem(first);
+            System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+            System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+            System.out.println();
+
+            space.addItem(first, third, Origin.class);
+            model = space.getItem(first);
+            System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+            System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+            System.out.println();
+
+            space.addItem(second, fourth, Point.class);
+            model = space.getItem(first);
+            System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+            System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+            System.out.println();
+
+            space.addItem(third, fourth, Point.class);
+            model = space.getItem(first);
+            System.out.println(model.getBounds().getEdges().getFirst().getX() + " " + model.getBounds().getEdges().getFirst().getY());
+            System.out.println(model.getBounds().getEdges().getSecond().getX() + " " + model.getBounds().getEdges().getSecond().getY());
+            System.out.println();
+        } catch (DAGConstraintException exception) {
+            System.out.println("GGWP");
+        } catch (Exception ex) {
+            System.out.println("model is null :(");
         }
 
-        Space space = new Space(coordinates);
-
-        System.out.println("!!! Input \"clear\" if you made a mistake !!!\n" +
-                "!!! Input \"end\" if you want to finnish !!!");
-        do {
-            System.out.println("Input next item coordinates: \"x y\"\n");
-            first = Util.readNext();
-            second = Util.readNext();
-            if(first.contains("end") || second.contains("end")) {
-                System.out.println("Input stopped\n");
-                break;
-            }
-            if (first.contains("clear") || second.contains("clear")) {
-                System.out.println("Input cleared\n");
-                continue;
-            }
-
-            System.out.println("Input item type: \"origin\" or \"point\"\n");
-            itemClassName = Util.readNext();
-            if(itemClassName.contains("end")) {
-                System.out.println("Input stopped\n");
-                break;
-            }
-            if (itemClassName.contains("clear")) {
-                System.out.println("Input cleared\n");
-                continue;
-            }
-
-            coordinates = Util.validateCoordinates(first, second);
-            try {
-                itemClass = Util.getItemClass(itemClassName);
-            } catch (ClassNotFoundException exception) {
-                System.out.println("Type " + itemClassName + " is invalid\n");
-                continue;
-            }
-            space.addItem(coordinates, itemClass);
-
-            System.out.println(first + " " + second + " " + itemClassName + " " + itemClass.getName());
-        } while (true);
+        double str;
+        str = model.getBounds().getEdges().getFirst().getX() +
+                model.getBounds().getEdges().getFirst().getY() +
+                model.getBounds().getEdges().getSecond().getX() +
+                model.getBounds().getEdges().getSecond().getY();
+        System.out.println(str);
     }
 }
