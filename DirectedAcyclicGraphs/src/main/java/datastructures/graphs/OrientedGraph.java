@@ -15,9 +15,11 @@ public class OrientedGraph {
         spaceOrigin = new Origin(spaceCoordinates);
     }
 
+
     private boolean hasVertex(Model model) {
         return hashMap.containsKey(model);
     }
+
 
     private void addEdge(Model modelOne, Model modelTwo) throws DAGConstraintException {
         if (modelOne.getClass() == Point.class) {
@@ -32,7 +34,7 @@ public class OrientedGraph {
 
         if (hasVertex(modelOne)) {
             hashMap.get(modelOne).add(modelTwo);
-            if(!hasVertex(modelTwo)) {
+            if (!hasVertex(modelTwo)) {
                 hashMap.put(modelTwo, new HashSet<Model>());
             }
         } else {
@@ -47,6 +49,7 @@ public class OrientedGraph {
         addChild(modelOne, modelTwo);
     }
 
+
     private boolean hasEdge(Model modelOne, Model modelTwo) {
         if (!hasVertex(modelOne)) {
             return false;
@@ -57,10 +60,12 @@ public class OrientedGraph {
         return false;
     }
 
+
     private void addChild(Model modelOne, Model modelTwo) {
         Origin model = (Origin) modelOne;
         model.getChildren().add(modelTwo);
     }
+
 
     public Optional<Model> findModelByCoordinates(Model comparingModel) {
         for (var model : hashMap.keySet()) {
@@ -71,15 +76,16 @@ public class OrientedGraph {
         return Optional.empty();
     }
 
+
     public void insert(Coord2D parentCoordinates, Model item) throws DAGConstraintException {
         Model parentModel;
-        if(parentCoordinates == null) {
+        if (parentCoordinates == null) {
             throw new IllegalArgumentException("Arguments can't be null");
         }
         Optional<Model> optionalParentModel = findModelByCoordinates(new Model(parentCoordinates));
 
         if (optionalParentModel.isEmpty()) {
-            if(spaceOrigin.getPosition().compareTo(parentCoordinates) == 0) {
+            if (spaceOrigin.getPosition().compareTo(parentCoordinates) == 0) {
                 parentModel = spaceOrigin;
             } else {
                 throw new DAGConstraintException("Cant find parent with coordinates "
@@ -91,6 +97,7 @@ public class OrientedGraph {
 
         addEdge(parentModel, item);
     }
+
 
     public Edges recomputeBounds(Model parent, Model current) {
         Origin originParent = (Origin) parent;
@@ -110,16 +117,16 @@ public class OrientedGraph {
             }
         }
 
+
         if (current.getClass() == Point.class) {
             pointCurrent = (Point) current;
             return originParent.getBounds().getEdges().addCoordinates(pointCurrent.getBounds().getEdges());
-            //originParent.getBounds().setNewEdges(edgesToCompare);
         } else {
             originCurrent = (Origin) current;
             return parent.getBounds().getEdges().addCoordinates(originCurrent.getBounds().getEdges());
-//            originParent.getBounds().setNewEdges(edgesToCompare);
         }
     }
+
 
     public Origin getSpaceOrigin() {
         return spaceOrigin;

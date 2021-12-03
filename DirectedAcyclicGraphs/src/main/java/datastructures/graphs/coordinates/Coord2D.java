@@ -1,6 +1,6 @@
 package datastructures.graphs.coordinates;
 
-public class Coord2D implements Comparable{
+public class Coord2D implements Comparable {
     private double x;
     private double y;
 
@@ -27,23 +27,23 @@ public class Coord2D implements Comparable{
 
     @Override
     public int compareTo(Object obj) {
-        if(obj.getClass() != Coord2D.class) {
+        if (obj.getClass() != Coord2D.class) {
             throw new IllegalArgumentException("Compare type must be \"Coord2D\"");
         }
 
-        Coord2D second = (Coord2D)obj;
+        Coord2D second = (Coord2D) obj;
 
-        if(Math.abs(getX() - second.getX()) < 0.000001 &&
+        if (Math.abs(getX() - second.getX()) < 0.000001 &&
                 Math.abs(getY() - second.getY()) < 0.000001) {
             return 0;
         }
 
-        if(getX() > second.getX()) {
+        if (getX() > second.getX()) {
             return 1;
         } else if (getX() < second.getX()) {
             return -1;
         } else {
-            if(getY() > second.getY()) {
+            if (getY() > second.getY()) {
                 return 1;
             } else if (getY() < second.getY()) {
                 return -1;

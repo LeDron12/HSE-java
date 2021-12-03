@@ -6,12 +6,14 @@ import datastructures.graphs.coordinates.Edges;
 public class BoundBox {
     private final Edges edges;
 
+
     public BoundBox(Coord2D coordinates) {
         this.edges = new Edges(coordinates, coordinates);
     }
 
+
     public void setNewEdges(Edges newEdges) {
-        if(newEdges == null) {
+        if (newEdges == null) {
             throw new IllegalArgumentException("Null arguments are restricted");
         }
 
@@ -28,9 +30,11 @@ public class BoundBox {
         edges.setSecond(newRightDownCoordinates);
     }
 
+
     public Edges getEdges() {
         return edges;
     }
+
 
     public void reset(Coord2D defaultCoordinates) {
         edges.setFirst(defaultCoordinates);

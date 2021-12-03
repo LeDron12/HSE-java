@@ -12,16 +12,18 @@ public class Space {
     private final OrientedGraph itemGraph; // Container with all items.
     private final Coord2D startCoordinates; // Start coordinates.
 
-    public Space (Coord2D startCoordinates) throws NullPointerException {
-        if(startCoordinates == null) {
+
+    public Space(Coord2D startCoordinates) throws NullPointerException {
+        if (startCoordinates == null) {
             throw new NullPointerException("Null arguments are restricted");
         }
         this.startCoordinates = startCoordinates;
         itemGraph = new OrientedGraph(startCoordinates);
     }
 
+
     /// Use space position if you want to create new independent Origin.
-    public void addItem (Coord2D parentCoordinates,
+    public void addItem(Coord2D parentCoordinates,
                         Coord2D coordinates,
                         Class<? extends Model> itemClass) throws IllegalArgumentException, NullPointerException, DAGConstraintException {
         if (parentCoordinates == null || coordinates == null || itemClass == null) {
@@ -37,16 +39,17 @@ public class Space {
         }
     }
 
+
     public Model getItem(Coord2D coordinates) throws DAGConstraintException {
         Model item;
         Optional<Model> optionalItem = itemGraph.findModelByCoordinates(new Model(coordinates));
 
-        if(coordinates == null) {
+        if (coordinates == null) {
             throw new NullPointerException("Null arguments are restricted");
         }
 
-        if(optionalItem.isEmpty()) {
-            if(coordinates.compareTo(startCoordinates) == 0) {
+        if (optionalItem.isEmpty()) {
+            if (coordinates.compareTo(startCoordinates) == 0) {
                 item = itemGraph.getSpaceOrigin();
             } else {
                 throw new DAGConstraintException("Cant find item with coordinates "
