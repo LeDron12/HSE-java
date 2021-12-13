@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
-    private Bank bank; // also is lock
+    private final Bank bank; // Also is a lock.
 
-    private final List<Thread> threads;
+    private final List<Thread> threads; // All players.
 
     private final List<Honest> honestPlayers;
     private final List<Sharper> cardsharpers;
@@ -23,16 +23,19 @@ public class Game {
         this.honestPlayers = new ArrayList<Honest>(honestPlayers);
         this.cardsharpers = new ArrayList<Sharper>(cardsharpers);
         this.threads = new ArrayList<Thread>(honestPlayers + cardsharpers);
+
         initPlayers(honestPlayers, cardsharpers);
         initThreads();
     }
 
+    /**
+     * Game start point.
+     */
     public void start() {
         activateAllPlayers();
 
         try {
-//            Thread.sleep(Constants.GAME_TIME);
-            Thread.sleep(300);
+            Thread.sleep(Constants.GAME_TIME);
         } catch (InterruptedException e) {
             System.out.println("Can't continue game");
         } finally {
@@ -44,6 +47,11 @@ public class Game {
         getWinnerAndPrint();
     }
 
+    /**
+     * Initialize all players in appropriate lists.
+     * @param honestAmount
+     * @param sharpersAmount
+     */
     private void initPlayers(int honestAmount, int sharpersAmount) {
         for (int i = 0; i < honestAmount; i++) {
             honestPlayers.add(new Honest(bank));
@@ -53,6 +61,9 @@ public class Game {
         }
     }
 
+    /**
+     * Initialize all players as threads.
+     */
     private void initThreads() {
         for (var player : honestPlayers) {
             threads.add(new Thread(player));
@@ -62,6 +73,9 @@ public class Game {
         }
     }
 
+    /**
+     * All players who are threads start working.
+     */
     private void activateAllPlayers() {
         for (var player : honestPlayers) {
             player.setActive(true);
@@ -74,6 +88,9 @@ public class Game {
         }
     }
 
+    /**
+     * All players who are treads stop working after they end their logic.
+     */
     public void stopAllPlayers() {
         for (var player : honestPlayers) {
             player.setActive(false);
@@ -83,12 +100,19 @@ public class Game {
         }
     }
 
+    /**
+     * Print info about every player and fining winner.
+     * Comparing amount that has been taken from bank and
+     * compares to amount that all players have together.
+     */
     private void getWinnerAndPrint() {
-        Player winner = null;
+        Player winner = honestPlayers.get(0);
         int max = 0;
 
         for (var player : honestPlayers) {
             player.print();
+            bank.setDiff(bank.getDiff() + player.getBalance());
+
             if(player.getBalance() > max) {
                 max = player.getBalance();
                 winner = player;
@@ -96,6 +120,8 @@ public class Game {
         }
         for (var player : cardsharpers) {
             player.print();
+            bank.setDiff(bank.getDiff() + player.getBalance());
+
             if(player.getBalance() > max) {
                 max = player.getBalance();
                 winner = player;
@@ -103,10 +129,19 @@ public class Game {
         }
 
         System.out.println("WINNER:");
-        // can't be null
         winner.print();
+
+        if(Integer.MAX_VALUE - bank.getBalance() == bank.getDiff()) {
+            System.out.println("World haven't lost any points");
+        } else {
+            System.out.println("ALARM! World have lost any points");
+        }
+
     }
 
+    /**
+     * Wait until each thread finishes working.
+     */
     private void waitUntilEveryThreadEnds() {
         boolean marker = true;
         while (marker) {

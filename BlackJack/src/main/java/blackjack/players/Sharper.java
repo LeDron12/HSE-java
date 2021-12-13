@@ -19,23 +19,30 @@ public class Sharper extends Player {
         int sleepTime;
 
         while (this.isActive()) {
-            var x = InputOutput.rnd.nextDouble();
-            if (x < Constants.STEAL_PROBABILITY) {
+            if (InputOutput.rnd.nextDouble() < Constants.STEAL_PROBABILITY) {
                 stealPoints();
 
                 sleepTime = InputOutput.rnd.nextInt(Constants.STEAL_SLEEP_TIME_MIN,
                         Constants.STEAL_SLEEP_TIME_MAX + 1);
-                try {
-                    Thread.sleep(sleepTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             } else {
-                super.run();
+                super.getPoints();
+
+                sleepTime = InputOutput.rnd.nextInt(Constants.GET_FROM_BANK_SLEEP_TIME_MIN,
+                        Constants.GET_FROM_BANK_SLEEP_TIME_MAX + 1);
+            }
+
+            try {
+                Thread.sleep(sleepTime);
+            } catch (InterruptedException e) {
+                System.out.println("Sharper: " + getSurname() + " " + getName() + " can't fall asleep");
+                e.printStackTrace();
             }
         }
     }
 
+    /**
+     * Sharper steals points from random Honest.
+     */
     private void stealPoints() {
         Honest honest = getRandomHonest();
 
@@ -45,14 +52,9 @@ public class Sharper extends Player {
 
             if (amount > honest.getBalance()) {
                 amount = honest.getBalance();
-                this.addToBalance(amount);
-                honest.addToBalance(-amount);
-                System.out.println(getName() + " " + getSurname() + " sTEALING " + amount + " from: " + honest.getName() + " " + honest.getSurname());
-            } else {
-                this.addToBalance(amount);
-                honest.addToBalance(-amount);
-                System.out.println(getName() + " " + getSurname() + " STEALINg " + amount + " from: " + honest.getName() + " " + honest.getSurname());
             }
+            this.addToBalance(amount);
+            honest.addToBalance(-amount);
         }
     }
 

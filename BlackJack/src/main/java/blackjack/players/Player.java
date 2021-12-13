@@ -6,10 +6,10 @@ import blackjack.util.InputOutput;
 
 public class Player implements Runnable {
     private final Bank bank;
-    private boolean active;
+    private boolean active; // Shows if thread is proceed working.
 
-    private String name;
-    private String surname;
+    private final String name;
+    private final String surname;
 
     private int balance;
 
@@ -35,16 +35,19 @@ public class Player implements Runnable {
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
+                System.out.println("Honest: " + getSurname() + " " + getName() + " can't fall asleep");
                 e.printStackTrace();
             }
         }
     }
 
-    private void getPoints() {
+    /**
+     * Player gets points from bank.
+     */
+    public void getPoints() {
         synchronized (bank) {
             int getAmount = bank.getMoney();
             balance = balance + getAmount;
-            System.out.println(name + " " + surname + " getting from bank: " + getAmount);
         }
     }
 
@@ -65,7 +68,7 @@ public class Player implements Runnable {
     }
 
     public void addToBalance(int amount) {
-        this.balance = balance + amount;
+        balance = balance + amount;
     }
 
     public Bank getBank() {
