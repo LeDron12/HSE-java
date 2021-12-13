@@ -17,6 +17,8 @@ public class Game {
     private final List<Honest> honestPlayers;
     private final List<Sharper> cardsharpers;
 
+    private boolean hasLeaks;
+
     public Game(int honestPlayers, int cardsharpers) {
         this.bank = new Bank();
 
@@ -32,6 +34,7 @@ public class Game {
      * Game start point.
      */
     public void start() {
+        System.out.println("Game in process...");
         activateAllPlayers();
 
         try {
@@ -91,7 +94,7 @@ public class Game {
     /**
      * All players who are treads stop working after they end their logic.
      */
-    public void stopAllPlayers() {
+    private void stopAllPlayers() {
         for (var player : honestPlayers) {
             player.setActive(false);
         }
@@ -133,8 +136,10 @@ public class Game {
 
         if(Integer.MAX_VALUE - bank.getBalance() == bank.getDiff()) {
             System.out.println("World haven't lost any points");
+            hasLeaks = false;
         } else {
             System.out.println("ALARM! World have lost any points");
+            hasLeaks = true;
         }
 
     }
@@ -153,5 +158,9 @@ public class Game {
                 marker = false;
             }
         }
+    }
+
+    public boolean isHasLeaks() {
+        return hasLeaks;
     }
 }

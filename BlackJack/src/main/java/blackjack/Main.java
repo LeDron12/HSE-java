@@ -9,15 +9,15 @@ public class Main {
         // Validating arguments.
         if (args.length == 0) {
             System.out.println("arguments not found\n" +
-                    "set default value for players: 3\n" +
-                    "set default value for sharpers: 0");
-            honestPlayers = 3;
-            cardsharpers = 0;
+                    "set default value for honest: 2\n" +
+                    "set default value for sharpers: 2");
+            honestPlayers = 2;
+            cardsharpers = 2;
         } else if (args.length == 1) {
             int amount = InputOutput.strToInt(args[0]);
             if(amount == 0) {
                 System.out.println("common argument can't be 0\n" +
-                        "set default value for players: 2\n" +
+                        "set default value for honest: 2\n" +
                         "set default value for sharpers: 2");
                 amount = 2;
             }
@@ -30,8 +30,8 @@ public class Main {
 
             if(honestPlayers == 0) {
                 honestPlayers = 1;
-                System.out.println("Honest players amount must be > 0" +
-                        "set default value for players: 2");
+                System.out.println("Honest players amount must be > 0\n" +
+                        "set default value for honest: 2");
             }
         }
 
