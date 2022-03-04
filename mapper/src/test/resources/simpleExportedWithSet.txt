@@ -1,0 +1,11 @@
+{ TestClassSet
+    "x": 12,
+    "str": "yay",
+    "set": { Set
+        "Set-Item": "set'e",
+        "Set-Item": "v",
+        "Set-Item": "ya",
+        "Set-Item": "mama",
+    },
+    "y": 3.14,
+},

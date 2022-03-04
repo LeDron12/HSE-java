@@ -1,0 +1,7 @@
+{ TestClassPropertyName
+    "val": 10,
+    "ch": c,
+    "changed": 6.66,
+    "whatHappens": "insta",
+    "whatHappens": "samka",
+},

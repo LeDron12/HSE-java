@@ -1,0 +1,30 @@
+{ TestClassComplexTwo
+    "list": [ List
+        "List-Item": { TestClassOne
+            "val": 2,
+            "str": "b",
+        },
+        "List-Item": { TestClassOne
+            "val": 5,
+            "str": "e",
+        },
+        "List-Item": { TestClassOne
+            "val": 111,
+            "str": "aaa",
+        },
+    ],
+    "x": 666,
+    "yaVmestoComplexBro": { Set
+        "Set-Item": { TestClassIgnored
+            "ch": t,
+            "str": "zaur",
+            "str2": "shiiiii",
+        },
+        "Set-Item": { TestClassIgnored
+            "ch": k,
+            "str": "ssh",
+            "str2": "wwe",
+        },
+    },
+    "nadpisb": "IMA STRING",
+},

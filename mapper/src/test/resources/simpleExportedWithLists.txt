@@ -1,0 +1,20 @@
+{ TestClassLists
+    "x": 12,
+    "str": "kekes",
+    "list1": [ List
+        "List-Item": "aaa",
+        "List-Item": "xxx",
+        "List-Item": "ccc",
+    ],
+    "list2": [ List
+        "List-Item": "privet",
+        "List-Item": "dorogoy",
+        "List-Item": "dryg",
+    ],
+    "list3": [ List
+        "List-Item": "123",
+        "List-Item": "555",
+        "List-Item": "check",
+    ],
+    "y": 3.14,
+},

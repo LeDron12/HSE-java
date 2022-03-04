@@ -1,0 +1,7 @@
+{ TestClassTwo
+    "val": 10,
+    "ch": c,
+    "d": 6.66,
+    "str": "insta",
+    "str2": "samka",
+},

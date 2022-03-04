@@ -1,0 +1,9 @@
+{ TestClassLocalDate
+    "val": 123,
+    "localDate": { LocalDate
+        "LD-Day": 30,
+        "LD-Month": 12,
+        "LD-Year": 2012,
+    },
+    "str": "kaktus",
+},

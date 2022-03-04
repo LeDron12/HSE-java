@@ -1,0 +1,10 @@
+{ TestClassList
+    "x": 12,
+    "str": "kekes",
+    "list": [ List
+        "List-Item": "foo",
+        "List-Item": "bar",
+        "List-Item": "amogus",
+    ],
+    "y": 3.14,
+},

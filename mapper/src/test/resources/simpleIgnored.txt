@@ -1,0 +1,5 @@
+{ TestClassIgnored
+    "ch": c,
+    "str": "insta",
+    "str2": "samka",
+},

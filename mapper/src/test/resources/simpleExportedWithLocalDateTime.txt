@@ -1,0 +1,13 @@
+{ TestClassLocalDateTime
+    "val": 123,
+    "localDateTime": { LocalDateTime
+        "LDT-NanoSecond": 0,
+        "LDT-Second": 2,
+        "LDT-Minute": 50,
+        "LDT-Hour": 18,
+        "LDT-Day": 13,
+        "LDT-Month": 6,
+        "LDT-Year": 2007,
+    },
+    "str": "total",
+},

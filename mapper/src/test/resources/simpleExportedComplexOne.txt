@@ -1,0 +1,32 @@
+{ TestClassComplexOne
+    "testClassOne": { TestClassOne
+        "val": 5,
+        "str": "abobus",
+    },
+    "testClassList": { TestClassList
+        "x": 12,
+        "str": "kekes",
+        "list": [ List
+            "List-Item": "foo",
+            "List-Item": "bar",
+            "List-Item": "amogus",
+        ],
+        "y": 3.14,
+    },
+    "testClassLocalTime": { TestClassLocalTime
+        "val": 123,
+        "localTime": { LocalTime
+            "LT-NanoSecond": 0,
+            "LT-Second": 16,
+            "LT-Minute": 32,
+            "LT-Hour": 12,
+        },
+        "localPartTime": { LocalTime
+            "LT-NanoSecond": 0,
+            "LT-Second": 0,
+            "LT-Minute": 10,
+            "LT-Hour": 4,
+        },
+        "str": "kaktus",
+    },
+},
